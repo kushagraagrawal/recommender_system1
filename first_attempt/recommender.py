@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 import os
 from math import sqrt
-import similar
+
 import csv
 import operator
 from sys import argv
@@ -108,7 +108,7 @@ def sim_pearson(ratings, user_1, user_2):
 	# Sum of the products
 	productSum = sum([int(ratings[user_1][item]) * int(ratings[user_2][item]) for item in similarity])
 	num = productSum - (sum_1*sum_2/numSim)
-	den = math.sqrt((sum_1_sq - pow(sum_1,2)/numSim) * (sum_2_sq - pow(sum_2,2)/numSim))
+	den = sqrt((sum_1_sq - pow(sum_1,2)/numSim) * (sum_2_sq - pow(sum_2,2)/numSim))
 
 	if den == 0:
 		return 0
@@ -148,7 +148,7 @@ def similaritems(ratings,similarity):
 	return itemlist
 
 def userBasedRecommendations(ratings, wantedPredictions, similarity):
-	file = open('user.txt', 'w')
+	file = open('user.txt', 'a')
 	ranks = {}
 
 	for tuple in wantedPredictions:
