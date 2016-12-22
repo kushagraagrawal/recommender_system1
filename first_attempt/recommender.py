@@ -11,7 +11,7 @@ f = open("ratings.csv")
 ratings_data = csv.reader(f)
 list_data = list(ratings_data)
 
-f1 = open("toBeRated.csv")
+f1 = open("test.csv")
 test = csv.reader(f1)
 test_data = list(test)
 
@@ -34,8 +34,10 @@ for u in users:
 		userratings[userid] = {}
 		userratings[userid][movieid] = movieratings
 		u_prev = userid
-#print userratings
 
+'''
+	transposing for item based collaborative filtering
+'''
 def transposeratings(ratings):
 	transposed = {}
 	for user in ratings:
@@ -114,15 +116,7 @@ def sim_pearson(ratings, user_1, user_2):
 	return r
 
 def jaccard(ratings, user_1, user_2):
-	# similarity = {}
-	# for item in ratings[user_1]:
-	# 	if item in ratings[user_2]:
-	# 		similarity[item] = 1
-
-	# numSim =len(similarity)
-
-	# if numSim == 0:
-	# 	return 0
+	
 
 	userOneRatingsArray = ([ratings[user_1][item] for item in ratings[user_1]])
 	userOne = set(userOneRatingsArray)
@@ -178,68 +172,7 @@ def userBasedRecommendations(ratings, wantedPredictions, similarity):
 					similaritySums[item] += s
 					ranks[item] = total[item]/similaritySums[item]
 		file.write(str(ranks[movieAsked])+'\n')
-'''
-def itemBasedRecommendations(ratings, itemToMatch, wantedPredictions):
-	file = open('itemBasedRecos.txt', 'a')
-	for tuple in wantedPredictions:
-		user = tuple[0]
-		movieAsked = tuple[1]
 
-		uRatings = ratings[user]
-		scores = {}
-		total = {}
-		ranks = {}
-
-
-		# items rated by this user
-		for(item, rating) in uRatings.items():
-		# items that are similar to this one
-			for(similarity,item_2) in itemToMatch[item]:
-			# don't consider if the user has already rated this item
-				if item_2 in uRatings: continue
-				scores.setdefault(item_2, 0)
-				scores[item_2] += similarity*int(rating)
-
-				# sum over similarities
-				total.setdefault(item_2,0)
-				total[item_2] += similarity
-				if total[item_2] == 0: 
-					ranks[item_2] = 1
-				else:
-					ranks[item_2] = scores[item_2]/total[item_2]
-		print ranks[movieAsked]
-		file.write(str(ranks[movieAsked]))
-
-# combination of item based and used based recommendations. Content - Boosted Collaborative Filtering
-def itemBasedRecommendationsForCBCF(ratings, itemToMatch):
-	for user in ratings:
-		uRatings = ratings[user]
-		scores = {}
-		total = {}
-		ranks = {}
-
-
-		# items rated by this user
-		for(item, rating) in uRatings.items():
-		# items that are similar to this one
-			for(similarity,item_2) in itemToMatch[item]:
-			# don't consider if the user has already rated this item
-				if item_2 in uRatings: 
-					uRatings[item_2] = uRatings[item_2]
-				else:
-					scores.setdefault(item_2, 0)
-					scores[item_2] += similarity*int(rating)
-
-					# sum over similarities
-					total.setdefault(item_2,0)
-					total[item_2] += similarity
-					if total[item_2] == 0: 
-						uRatings[item_2] = 1
-					else:
-						uRatings[item_2] = scores[item_2]/total[item_2]
-		
-	return ratings
-'''
 def mainFunction():
 	similaritymeasure = raw_input()
 	if similaritymeasure == 'cosine':
