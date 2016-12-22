@@ -148,7 +148,7 @@ def similaritems(ratings,similarity):
 	return itemlist
 
 def userBasedRecommendations(ratings, wantedPredictions, similarity):
-	file = open('user.txt', 'a')
+	file = open('user.txt', 'w')
 	ranks = {}
 
 	for tuple in wantedPredictions:
