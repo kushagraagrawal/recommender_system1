@@ -173,6 +173,27 @@ def userBasedRecommendations(ratings, wantedPredictions, similarity):
 					ranks[item] = total[item]/similaritySums[item]
 		file.write(str(ranks[movieAsked])+'\n')
 
+def itembasedcollaborativefiltering(ratings,itemtomatch,wantedpredictions):
+	file = open('itembasedrecos.txt','a')
+	for tuple in wantedpredictions:
+		user = tuple[0]
+		movieasked = tuple[1]
+		
+		uratings = ratings[user]
+		scores={}
+		total={}
+		ranks={}
+		
+		for(item,rating) in uratings.items():
+			for(similarity,item_2) in itemtomatch[item]:
+				if item_2 in uratings:
+					continue
+				scores.setdefault(item_2,0)
+				scores[item_2] += similarity*int(rating)
+				
+				
+
+
 def mainFunction():
 	similaritymeasure = raw_input()
 	if similaritymeasure == 'cosine':
