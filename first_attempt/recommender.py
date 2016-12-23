@@ -143,7 +143,7 @@ def similaritems(ratings,similarity):
 		c = c+1
 		if c%100==0:
 			print "%d %d" % (c,len(itemsratings))
-		matches = matches(itemsratings,item,similarity)
+		Matches = matches(itemsratings,item,similarity)
 		itemlist[item] = matches
 	return itemlist
 
@@ -191,9 +191,19 @@ def itembasedcollaborativefiltering(ratings,itemtomatch,wantedpredictions):
 				scores.setdefault(item_2,0)
 				scores[item_2] += similarity*int(rating)
 				
-				
+				total.setdefault(item_2,0)
+				total[item_2] += similarity
+				if total[item_2]==0:
+					uratings[item_2]=1
+				else:
+					uRatings[item_2] = scores[item_2]/total[item_2]
+		print ranks[movieasked]
+		file.write(str(ranks[movieasked]))
 
 
+similaritems = similaritems(userratings,sim_cosine)
+itembasedcollaborativefiltering(userratings,similaritems,test_data)
+'''
 def mainFunction():
 	similaritymeasure = raw_input()
 	if similaritymeasure == 'cosine':
@@ -208,3 +218,4 @@ def mainFunction():
 
 mainFunction()
 
+'''
