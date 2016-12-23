@@ -10,6 +10,7 @@ from sys import argv
 f = open("ratings.csv")
 ratings_data = csv.reader(f)
 list_data = list(ratings_data)
+print len(list_data)
 
 f1 = open("test.csv")
 test = csv.reader(f1)
@@ -35,6 +36,7 @@ for u in users:
 		userratings[userid][movieid] = movieratings
 		u_prev = userid
 
+print len(userratings)
 '''
 	transposing for item based collaborative filtering
 '''
@@ -201,8 +203,8 @@ def itembasedcollaborativefiltering(ratings,itemtomatch,wantedpredictions):
 		file.write(str(ranks[movieasked]))
 
 
-similaritems = similaritems(userratings,sim_cosine)
-itembasedcollaborativefiltering(userratings,similaritems,test_data)
+#similaritems = similaritems(userratings,sim_cosine)
+#itembasedcollaborativefiltering(userratings,similaritems,test_data)
 '''
 def mainFunction():
 	similaritymeasure = raw_input()
