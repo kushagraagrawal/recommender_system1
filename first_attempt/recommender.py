@@ -10,12 +10,15 @@ from sys import argv
 f = open("ratings.csv")
 ratings_data = csv.reader(f)
 list_data = list(ratings_data)
-print len(list_data)
+list_data = np.array(list_data)
+print list_data.shape
 
 f1 = open("test.csv")
 test = csv.reader(f1)
 test_data = list(test)
+test_data = np.array(test_data)
 
+#use sparse matrix here I guess
 userratings = {}
 users = sorted(list_data, key = operator.itemgetter(0))
 
@@ -36,11 +39,12 @@ for u in users:
 		userratings[userid][movieid] = movieratings
 		u_prev = userid
 
-print len(userratings)
+
 '''
 	transposing for item based collaborative filtering
 '''
 def transposeratings(ratings):
+	#sparse matrix here too? also, np.transpose() ?
 	transposed = {}
 	for user in ratings:
 		for item in ratings[user]:
@@ -67,7 +71,7 @@ def sim_cosine(ratings, user_1, user_2):
 	
 
 	sum_xx, sum_yy, sum_xy = 0,0,0
-
+# np.dot() ?
 	for i in range(len(userOneRatingsArray)):
 		x = userOneRatingsArray[i]
 		y = userTwoRatingsArray[i]
@@ -205,7 +209,7 @@ def itembasedcollaborativefiltering(ratings,itemtomatch,wantedpredictions):
 
 #similaritems = similaritems(userratings,sim_cosine)
 #itembasedcollaborativefiltering(userratings,similaritems,test_data)
-'''
+
 def mainFunction():
 	similaritymeasure = raw_input()
 	if similaritymeasure == 'cosine':
@@ -220,4 +224,4 @@ def mainFunction():
 
 mainFunction()
 
-'''
+
